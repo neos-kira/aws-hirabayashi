@@ -1,0 +1,10 @@
+---
+- name: Install file integrity tool (aide)
+  ansible.builtin.dnf:
+    name: aide
+    state: present
+
+- name: Initialize AIDE database (first run only)
+  ansible.builtin.command:
+    cmd: aide --init
+    creates: /var/lib/aide/aide.db.gz

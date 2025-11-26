@@ -1,0 +1,26 @@
+- name: Create appuser without sudo
+  ansible.builtin.user:
+    name: appuser
+    shell: /bin/bash
+    create_home: yes
+
+- name: Ensure appuser has no sudoers file
+  ansible.builtin.file:
+    path: /etc/sudoers.d/appuser
+    state: absent
+
+- name: Create .ssh directory for appuser
+  ansible.builtin.file:
+    path: /home/appuser/.ssh
+    state: directory
+    owner: appuser
+    group: appuser
+    mode: "0700"
+
+- name: Deploy authorized_keys for appuser
+  ansible.builtin.copy:
+    dest: /home/appuser/.ssh/authorized_keys
+    content: "{{ appuser_ssh_public_key }}"
+    owner: appuser
+    group: appuser
+    mode: "0600"

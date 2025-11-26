@@ -1,0 +1,11 @@
+---
+- hosts: app
+  become: yes
+
+  roles:
+    - common
+    - ssh
+    - appuser
+    - ntp
+    - tripwire
+    - apache
